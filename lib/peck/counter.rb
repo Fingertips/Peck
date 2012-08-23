@@ -8,12 +8,14 @@ class Peck
       @instance ||= new
     end
 
-    attr_accessor :ran, :passed, :failed, :pending, :errors
+    attr_accessor :ran, :passed, :failed, :pending, :missing, :events
 
     def initialize
-      @ran = @passed = @failed = @pending = @errors = 0
+      @ran = @passed = @failed = 0
       @started_at = @stopped_at = Time.now
-      @events = []
+      @pending = []
+      @missing = []
+      @events  = []
       $stdout.sync = true
     end
 
@@ -25,15 +27,25 @@ class Peck
       @finished_at = Time.now
     end
 
-    def finished_spec(spec)
+    def finished_specification(spec)
       @ran += 1
-      if spec.error?
-        @errors += 1
-      elsif spec.passed?
+      if spec.passed?
         @passed += 1
-      elsif specification.failure?
+      elsif spec.failed?
         @failed += 1
       end
+    end
+
+    def received_pending(label)
+      @pending << label
+    end
+
+    def received_missing(spec)
+      @missing << spec
+    end
+
+    def received_exception(spec, exception)
+      @events << exception
     end
   end
 

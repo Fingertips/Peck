@@ -9,7 +9,10 @@ class Peck
     MESSAGES = %w(
       started
       finished
-      finished_spec
+      started_specification
+      finished_specification
+      received_missing
+      received_exception
     ).freeze
 
     def supported_messages
@@ -24,6 +27,8 @@ class Peck
             delegate.send(method, *args, &block)
           end
         end
+      else
+        super
       end
     end
   end

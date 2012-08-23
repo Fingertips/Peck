@@ -1,12 +1,4 @@
 class Peck
-  class << self
-    attr_accessor :contexts, :select_context, :select_spec
-  end
-
-  self.contexts = []
-  self.select_context = //
-  self.select_spec = //
-
   class Context
     attr_reader :specification
 
@@ -56,20 +48,10 @@ class Peck
         Peck.join_description(description)
       end
 
-      def it(description, &block)
-        return if label !~ Peck.select_spec
-        specification = Specification.new(self, @before, @after, description, &block)
-
-        unless block_given?
-          specification.errors << Error.new(:missing, "Pending")
-        end
-
-        @specs << specification
-        specification
-      end
-
       def describe(*description, &block)
-        init(@before, @after, *description, &block)
+        if Peck.context_selector.match(Peck.join_description(*description))
+          init(@before, @after, *description, &block)
+        end
       end
     end
   end

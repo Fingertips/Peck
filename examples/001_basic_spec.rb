@@ -1,10 +1,16 @@
 require 'peck'
+require 'peck/debug'
 
 describe "The test framework" do
   it "discovers the truth" do
     true.should == true
   end
 end
+
+# We need to specs to run now, not at exit because we want to inspect
+# the outcomes.
+
+Peck.run
 
 require 'assert'
 
@@ -34,8 +40,8 @@ assert(Peck.counter.passed == 1,
 assert(Peck.counter.failed == 0,
   "Expected no specifications to have failed")
 
-assert(Peck.counter.pending == 0,
+assert(Peck.counter.pending.empty? == true,
   "Expected no specifications to be pending")
 
-assert(Peck.counter.errors == 0,
-  "Expected no errors to have happened")
+assert(Peck.counter.events.empty? == true,
+  "Expected no errors or exceptions to have happened")
