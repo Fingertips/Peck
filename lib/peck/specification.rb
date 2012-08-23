@@ -15,7 +15,7 @@ class Peck
 
   class Specification
     attr_reader :description, :context
-    attr_accessor :expectations, :errors
+    attr_reader :expectations, :events
 
     def initialize(context, before, after, description, &block)
       @context      = context.new(self)
@@ -26,8 +26,6 @@ class Peck
 
       @expectations = []
       @events       = []
-
-      @finished = false
     end
 
     def label
@@ -58,8 +56,6 @@ class Peck
     rescue Object => e
       Peck.delegates.received_exception(self, e)
       @events << e
-    ensure
-      @finished = true
     end
 
     def empty?
@@ -71,7 +67,7 @@ class Peck
     end
 
     def passed?
-      !failed? && !@expectations.empty?
+      !failed? && !empty?
     end
   end
 end

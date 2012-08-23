@@ -1,4 +1,5 @@
 require 'peck'
+Peck.run_at_exit
 
 class Bird
   attr_reader :calls

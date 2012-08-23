@@ -3,6 +3,10 @@ require 'peck/delegates'
 require 'peck/counter'
 require 'peck/context'
 require 'peck/specification'
+require 'peck/expectations'
+require 'peck/notifiers/default'
+
+Peck::Notifiers::Default.use
 
 class Peck
   VERSION = "1.0"
@@ -26,9 +30,6 @@ class Peck
     # Used to select which specs should be run. See Peck.select_context
     # for more information.
     attr_accessor :spec_selector
-
-    # Set to true when an at_exit handler was installed.
-    attr_accessor :at_exit_installed
 
     # Sets the level of concurrency.
     attr_accessor :concurrency
@@ -54,7 +55,15 @@ class Peck
 
   def self.all_specs
     contexts.inject([]) do |all, context|
-      all.concat(context.spec)
+      all.concat(context.specs)
+    end
+  end
+
+  def self.all_events
+    contexts.inject([]) do |all, context|
+      context.specs.inject(all) do |events, spec|
+        events.concat(spec.events)
+      end
     end
   end
 
@@ -65,13 +74,8 @@ class Peck
   end
 
   def self.run_at_exit
-    unless at_exit_installed
-      self.at_exit_installed = true
-      delegates << Peck::Reporter.new
-      at_exit do
-        run
-        delegates.at_exit
-      end
+    at_exit do
+      run
     end
   end
 

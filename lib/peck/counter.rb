@@ -12,19 +12,10 @@ class Peck
 
     def initialize
       @ran = @passed = @failed = 0
-      @started_at = @stopped_at = Time.now
       @pending = []
       @missing = []
       @events  = []
       $stdout.sync = true
-    end
-
-    def started
-      @started_at = Time.now
-    end
-
-    def finished
-      @finished_at = Time.now
     end
 
     def finished_specification(spec)
