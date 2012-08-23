@@ -23,21 +23,23 @@ class Peck
         end
       end
 
-      def write_exeception(exception)
-        puts exception.message
-        puts exception.backtrace.join("\n\t")
+      def write_exeception(number, exception)
+        puts "  #{number}) #{exception.message}"
+        backtrace = clean_backtrace(exception.backtrace)
+        puts "\t#{backtrace.join("\n\t")}\n\n"
       end
       
-      def write_event(event)
+      def write_event(number, event)
         case event
         when Exception
-          write_exeception(event)
+          write_exeception(number, event)
         end
       end
 
       def write_events
-        Peck.all_events.each do |event|
-          write_event(event)
+        Peck.all_events.each_with_index do |event, index|
+          number = index + 1
+          write_event(number, event)
         end
       end
 
@@ -53,7 +55,6 @@ class Peck
       def write
         puts if Peck.counter.ran > 0
         write_events
-        puts unless Peck.counter.events.empty?
         write_stats
       end
 
