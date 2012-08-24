@@ -9,7 +9,7 @@ require 'peck/notifiers/default'
 Peck::Notifiers::Default.use
 
 class Peck
-  VERSION = "1.0"
+  VERSION = "0.1.0"
   
   class << self
     # Returns all the defined contexts.
