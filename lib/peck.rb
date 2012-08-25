@@ -97,7 +97,7 @@ class Peck
   def self.run_concurrent
     Peck.log("Running specs concurrently")
     current_spec = -1
-    specs = all_specifications
+    specs = all_specs
     threaded do |nr|
       Thread.current['peck-semaphore'] = Mutex.new
       loop do
