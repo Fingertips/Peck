@@ -53,6 +53,36 @@ class Peck
           init(@before, @after, *description, &block)
         end
       end
+      
+      # Is only ran once for every context when it's initialized. Great place
+      # to hook in test suite specific functionality.
+      #
+      #   Peck::Context.once { |context| context.before { @name = 'Mary' } }
+      def once(&block)
+        @setup ||= []
+        @setup << block
+      end
+      
+      def before(*args, &block)
+        add_callback(@before, *args, &block)
+      end
+      alias setup before
+
+      def after(*args, &block)
+        add_callback(@after, *args, &block)
+      end
+      alias teardown after
+
+      private
+
+      def add_callback(chain, *args, &block)
+        args.each do |method|
+          chain << Proc.new { send(method) }
+        end
+        if block_given?
+          chain << block
+        end
+      end
     end
   end
 
