@@ -77,6 +77,7 @@ class Peck
 
       def add_callback(chain, *args, &block)
         args.each do |method|
+          Peck.log("Adding method `#{method}' to callback chain")
           chain << Proc.new { send(method) }
         end
         if block_given?

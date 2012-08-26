@@ -52,13 +52,16 @@ class Peck
     def run
       if @block
         @before.each { |cb| @context.instance_eval(&cb) }
-        synchronized do
-          Thread.current['peck-spec'] = self
-          @context.instance_eval(&@block)
-          Thread.current['peck-spec'] = nil
+        begin
+          synchronized do
+            Thread.current['peck-spec'] = self
+            @context.instance_eval(&@block)
+            Thread.current['peck-spec'] = nil
+          end
+          Peck.delegates.received_missing(self) if empty?
+        ensure
+          @after.each { |cb| @context.instance_eval(&cb) }
         end
-        Peck.delegates.received_missing(self) if empty?
-        @after.each { |cb| @context.instance_eval(&cb) }
       else
         Peck.delegates.received_missing(self)
       end

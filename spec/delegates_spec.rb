@@ -1,4 +1,4 @@
-require 'peck/flavors/vanilla'
+require File.expand_path('../preamble', __FILE__)
 
 class Bird
   attr_reader :calls

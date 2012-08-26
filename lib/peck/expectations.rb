@@ -38,7 +38,7 @@ class Peck
 
       result = yield(@this, *args)
       unless @negated ^ result
-        raise Peck::Error.new(:failed, description)
+        Kernel.raise Peck::Error.new(:failed, description)
       end
       result
     end
@@ -61,6 +61,37 @@ class Peck
         after = eval(expression, binding)
 
         after == before + difference
+      end
+    end
+
+    def raise(exception_class=nil)
+      exception = nil
+      begin
+        @this.call
+      rescue Exception => e
+        exception = e
+      end
+
+      description = if exception_class
+        if @negated
+          "expected `#{exception_class}' to not be raised"
+        else
+          "expected `#{exception_class}' to be raised, but got a `#{exception.class}'"
+        end
+      else
+        if @negated
+          "expected nothing to be raised, but got `#{exception.inspect}'"
+        else
+          "expected an exception, but nothing was raised"
+        end
+      end
+
+      satisfy(description) do
+        if exception_class
+          exception.kind_of?(exception_class)
+        else
+          !exception.nil?
+        end
       end
     end
 

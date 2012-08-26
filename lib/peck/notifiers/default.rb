@@ -24,9 +24,9 @@ class Peck
       end
 
       def write_exeception(number, event)
-        puts "  #{number}) #{event.spec.label}"
+        puts "  #{number}) #{event.spec.label}\n\n"
         backtrace = clean_backtrace(event.exception.backtrace)
-        puts "  #{event.exception.message}\n\t#{backtrace.join("\n\t")}\n\n"
+        puts "  #{event.exception.message}\n\n\t#{backtrace.join("\n\t")}\n\n"
       end
       
       def write_event(number, event)
