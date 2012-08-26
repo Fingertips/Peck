@@ -1,4 +1,5 @@
 require File.expand_path('../preamble', __FILE__)
+require 'stringio'
 
 class FakeSpec < Struct.new(:label)
 end
@@ -16,9 +17,28 @@ describe Peck::Notifiers::Default do
   end
 
   it "formats test failures into a readable format" do
-    @notifier.write_event(2, @event)
+    capture_stdout do
+      @notifier.write_event(2, @event)
+    end.should == "  2) Event should go on
+
+  Is a good example of what might happen
+
+\tspec/default_notifier_spec.rb:10
+
+"
   end
 
-  it "formats exceptions into a readable format" do
+  private
+
+  def capture_stdout
+    stdout = $stdout
+    $stdout = written = StringIO.new('')
+    begin
+      yield
+    ensure
+      $stdout = stdout
+    end
+    written.rewind
+    written.read
   end
 end
