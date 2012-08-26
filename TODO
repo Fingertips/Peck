@@ -1,0 +1,3 @@
+* Make Peck#run use a different exit code in case of test failures
+* Clean up the concurrency code
+* 
