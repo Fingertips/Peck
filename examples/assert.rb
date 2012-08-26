@@ -10,4 +10,12 @@ module Kernel
       puts "\n  #{@_failures}) #{where}\n\t#{message}"
     end
   end
+
+  def failures
+    @_failures || 0
+  end
+end
+
+at_exit do
+  exit failures
 end
