@@ -1,5 +1,4 @@
-require 'peck'
-Peck.run_at_exit
+require 'peck/flavors/vanilla'
 
 class Bird
   attr_reader :calls

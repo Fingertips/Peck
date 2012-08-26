@@ -1,5 +1,4 @@
-require 'peck'
-require 'peck/debug'
+require 'preamble'
 
 describe "The test framework" do
   it "discovers failure" do

@@ -1,5 +1,4 @@
-require 'peck'
-require 'peck/debug'
+require 'preamble'
 
 Peck::Context.once do |context|
   context.class_eval do

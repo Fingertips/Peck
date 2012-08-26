@@ -1,5 +1,4 @@
-require 'peck'
-require 'peck/debug'
+require 'preamble'
 
 Peck.concurrency = 100
 

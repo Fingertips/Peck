@@ -1,3 +1,5 @@
+require 'peck/error'
+
 class Peck
   class Should
     # Kills ==, ===, =~, eql?, equal?, frozen?, instance_of?, is_a?,
