@@ -23,16 +23,18 @@ class Peck
         end
       end
 
-      def write_exeception(number, exception)
-        puts "  #{number}) #{exception.message}"
-        backtrace = clean_backtrace(exception.backtrace)
-        puts "\t#{backtrace.join("\n\t")}\n\n"
+      def write_exeception(number, event)
+        puts "  #{number}) #{event.spec.label}"
+        backtrace = clean_backtrace(event.exception.backtrace)
+        puts "  #{event.exception.message}\n\t#{backtrace.join("\n\t")}\n\n"
       end
       
       def write_event(number, event)
-        case event
+        case event.exception
         when Exception
           write_exeception(number, event)
+        else
+          raise ArgumentError, "Don't know how to display event `#{event.expectation.class.name}'"
         end
       end
 

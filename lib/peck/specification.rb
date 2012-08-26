@@ -13,6 +13,15 @@ class Peck
     end
   end
 
+  class Event
+    attr_accessor :exception, :spec
+
+    def initialize(exception, spec)
+      @exception = exception
+      @spec = spec
+    end
+  end
+
   class Specification
     attr_reader :description, :context
     attr_reader :expectations, :events
@@ -55,7 +64,7 @@ class Peck
       end
     rescue Object => e
       Peck.delegates.received_exception(self, e)
-      @events << e
+      @events << Event.new(e, self)
     end
 
     def empty?
