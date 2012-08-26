@@ -14,19 +14,7 @@ Gem::Specification.new do |spec|
     used in parts and is easily extended.
   EOF
 
-  spec.files = [
-    'COPYING',
-    'lib/peck/context.rb',
-    'lib/peck/counter.rb',
-    'lib/peck/debug.rb',
-    'lib/peck/delegates.rb',
-    'lib/peck/error.rb',
-    'lib/peck/expectations.rb',
-    'lib/peck/notifiers/base.rb',
-    'lib/peck/notifiers/default.rb',
-    'lib/peck/specification.rb',
-    'lib/peck.rb'
-  ]
+  spec.files = Dir.glob("{lib}/**/*") + %w(COPYING README.md)
 
   spec.has_rdoc = true
   spec.extra_rdoc_files = ['COPYING']
