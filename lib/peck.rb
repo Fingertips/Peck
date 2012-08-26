@@ -66,6 +66,7 @@ class Peck
   def self.run_at_exit
     at_exit do
       run
+      exit Peck.counter.failed
     end
   end
 
