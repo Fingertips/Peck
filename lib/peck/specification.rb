@@ -49,7 +49,8 @@ class Peck
       end
     end
 
-    def run
+    def run delegates
+      delegates.started_specification(self)
       if @block
         @before.each { |cb| @context.instance_eval(&cb) }
         begin
@@ -63,11 +64,13 @@ class Peck
           @after.each { |cb| @context.instance_eval(&cb) }
         end
       else
-        Peck.delegates.received_missing(self)
+        delegates.received_missing(self)
       end
     rescue Object => e
       Peck.delegates.received_exception(self, e)
       @events << Event.new(e, self)
+    ensure
+      delegates.finished_specification(self)
     end
 
     def empty?
