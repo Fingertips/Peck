@@ -75,9 +75,7 @@ class Peck
     Thread.current['peck-semaphore'] = Mutex.new
     contexts.each do |context|
       context.specs.each do |specification|
-        delegates.started_specification(specification)
-        specification.run
-        delegates.finished_specification(specification)
+        specification.run(delegates)
       end
     end
   rescue Exception => e
@@ -94,9 +92,7 @@ class Peck
       loop do
         spec_index = Thread.exclusive { current_spec += 1 }
         if specification = specs[spec_index]
-          delegates.started_specification(specification)
-          specification.run
-          delegates.finished_specification(specification)
+          specification.run(delegates)
         else
           break
         end
