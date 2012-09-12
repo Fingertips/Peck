@@ -14,3 +14,9 @@ task :examples do
     sh "ruby -I examples -I lib #{example} -e ''"
   end
 end
+
+desc "Add magic encoding to all source files in the project"
+task :magic do
+  require File.expand_path('../rake/magic_encoding', __FILE__)
+  MagicEncoding.apply
+end

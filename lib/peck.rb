@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Peck
   VERSION = "0.1.0"
   

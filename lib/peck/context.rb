@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Peck
   class Context
     attr_reader :specification

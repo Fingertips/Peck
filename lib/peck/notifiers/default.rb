@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'peck/notifiers/base'
 
 class Peck

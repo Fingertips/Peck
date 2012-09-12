@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Peck
   class << self
     attr_accessor :counter

@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require File.expand_path('../preamble', __FILE__)
 
 class Bird
