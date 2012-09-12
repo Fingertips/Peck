@@ -2,6 +2,24 @@ require 'peck/error'
 
 class Peck
   class Should
+    class Proxy
+      attr_accessor :negated
+      attr_reader :context, :block
+
+      def initialize(context, &block)
+        @context = context
+        @block = block
+        @negated = false
+      end
+    end
+
+    class Specification < Proxy
+      def not
+        @negated = !@negated
+        self
+      end
+    end
+
     # Kills ==, ===, =~, eql?, equal?, frozen?, instance_of?, is_a?,
     # kind_of?, nil?, respond_to?, tainted?
     KILL_METHODS_RE = /\?|^\W+$/
@@ -110,6 +128,10 @@ end
 
 class Object
   def should(*args, &block)
-    Peck::Should.new(self).be(*args, &block)
+    if self.kind_of?(Class) && (self < Peck::Context)
+      Peck::Should::Specification.new(self)
+    else
+      Peck::Should.new(self).be(*args, &block)
+    end
   end
 end

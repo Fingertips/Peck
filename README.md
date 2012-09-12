@@ -100,6 +100,33 @@ created.
       emd
     end
 
+Except extension you can also add should macros which defined one or more
+specifications:
+
+    class Peck::Should::Specification
+      class Disallow < Peck::Should::Proxy
+        def get(action)
+          context.it("disallows GET on `#{action}'") do
+            get action
+            response.should == :unauthorized
+          end
+        end
+      end
+
+      def disallow
+        Peck::Should::Specification::Disallow.new(context)
+      end
+    end
+
+    describe CertificatesController, "when accessed by a regular user" do
+      before do
+        login :regular_user
+      end
+
+      should.disallow.get :index
+      should.disallow.get :show
+    end
+
 ## Documentation
 
 Peck is still very much in flux and will probably change a lot in the coming
