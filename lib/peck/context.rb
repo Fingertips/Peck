@@ -10,6 +10,10 @@ class Peck
       self.class.describe(*args, &block)
     end
 
+    def inspect
+      "#<Peck::Context:0x#{object_id.to_s(16)} @description=\"#{self.class.label}\">"
+    end
+
     class << self
       FILENAME_WITHOUT_LINE_RE = /^(.+?):\d+/
       
@@ -53,7 +57,11 @@ class Peck
           init(@before, @after, *description, &block)
         end
       end
-      
+
+      def inspect
+        "#<Peck::Context description=\"#{@description[0]}…\">"
+      end
+
       # Is only ran once for every context when it's initialized. Great place
       # to hook in test suite specific functionality.
       #
@@ -62,7 +70,7 @@ class Peck
         @setup ||= []
         @setup << block
       end
-      
+
       def before(*args, &block)
         add_callback(@before, *args, &block)
       end
