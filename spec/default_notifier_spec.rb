@@ -25,7 +25,7 @@ describe Peck::Notifiers::Default do
 
   Is a good example of what might happen
 
-\tspec/default_notifier_spec.rb:10
+\tspec/default_notifier_spec.rb:12
 
 "
   end
