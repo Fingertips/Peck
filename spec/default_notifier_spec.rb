@@ -8,24 +8,47 @@ end
 
 describe Peck::Notifiers::Default do
   before do
-    begin
-      raise ArgumentError, "Is a good example of what might happen"
-    rescue => e
-      @e = e
-    end
     @notifier = Peck::Notifiers::Default.new
-    @spec = FakeSpec.new("Event should go on")
-    @event = Peck::Event.new(@e, @spec)
   end
 
   it "formats test failures into a readable format" do
+    exception = nil
+    begin
+      raise ArgumentError, "Is a good example of what might happen"
+    rescue => e
+      exception = e
+    end
+
+    spec = FakeSpec.new("Event should go on")
+    event = Peck::Event.new(exception, spec)
+
     capture_stdout do
-      @notifier.write_event(2, @event)
+      @notifier.write_event(2, event)
     end.should == "  2) Event should go on
 
   Is a good example of what might happen
 
-\tspec/default_notifier_spec.rb:12
+\tspec/default_notifier_spec.rb:17
+
+"
+  end
+
+  it "formats test failures without a message" do
+    exception = nil
+    begin
+      fail
+    rescue => e
+      exception = e
+    end
+
+    spec = FakeSpec.new("Event should go on")
+    event = Peck::Event.new(exception, spec)
+
+    capture_stdout do
+      @notifier.write_event(2, event)
+    end.should == "  2) Event should go on
+
+\tspec/default_notifier_spec.rb:39
 
 "
   end
