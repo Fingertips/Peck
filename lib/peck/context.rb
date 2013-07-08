@@ -55,8 +55,8 @@ class Peck
       end
 
       def describe(*description, &block)
-        if Peck.context_selector.match(Peck.join_description(*description))
-          init(@before, @after, *description, &block)
+        if Peck.context_selector.match(Peck.join_description(@description + description))
+          init(@before, @after, *(@description + description), &block)
         end
       end
 
