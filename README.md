@@ -127,7 +127,39 @@ specifications:
       should.disallow.get :show
     end
 
-## Documentation
+### Flavors
+
+You can either require parts of Peck you're using for your test suite or
+require an entire flavor. Flavors are pre-built configurations for common
+use cases. Right now there are three flavors:
+
+#### Vanilla
+
+    require 'peck/flavors/vanilla'
+
+Reports running specs with dots and ends with a short report.
+
+#### Quiet
+
+    require 'peck/flavors/quiet'
+
+Runs your specs but doesn't report the results. This is useful when testing
+Peck itself or your extensions for Peck.
+
+If you want to learn more about testing Peck itself read `examples/preamble.rb`.
+
+In the quiet flavor we do keep a counter, so you could write your own formatter using `Peck.counter`.
+
+##### Documentation
+
+The documentation runner is based on various other ‘documentation’ runners which are generally used for running on CI. This flavor reports the entire label for a spec and colored output. It also shows the runtime for a spec and can report slow specs.
+
+You can configure the report cutoff for slow specs. By default it's configured at 500ms.
+
+    require 'peck/notifiers/documentation'
+    Peck::Notifiers::Documentation.runtime_report_cutoff = 20 # milliseconds
+
+## Assertions
 
 Peck is still very much in flux and will probably change a lot in the coming
 months. Currently we support a small number of assertions:

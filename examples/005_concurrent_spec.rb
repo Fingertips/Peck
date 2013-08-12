@@ -2,7 +2,11 @@
 
 require 'preamble'
 
-Peck.concurrency = 100
+Peck.concurrency = 80
+
+if Peck.const_defined?(:Notifiers)
+  Peck::Notifiers::Documentation.runtime_report_cutoff = 202
+end
 
 describe "The test framework" do
   100.times do
