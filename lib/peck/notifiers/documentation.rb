@@ -5,22 +5,71 @@ require 'peck/notifiers/default'
 class Peck
   class Notifiers
     class Documentation < Peck::Notifiers::Default
+      # Keeps all the labels, start, and end times for the specs
+      attr_accessor :details
+
+      # A FIFO queue of all the started specs being first on the queue means
+      # the spec has been reported as started. Being on the queue means the
+      # spec still needs to be reported as being finished.
+      attr_accessor :running
+
+      # Mutex to synchronize the access of the global data structures
+      attr_accessor :semaphore
+
       def initialize
-        @spec_started_at = {}
+        self.details = {}
+        self.running = []
+        self.semaphore = Mutex.new
       end
 
       def started_specification(spec)
-        @spec_started_at[spec.object_id] = Time.now
+        self.semaphore.synchronize do
+          spec_id = spec.object_id
+          self.running.push(spec_id)
+          self.details[spec_id] ||= {}
+          self.details[spec_id][:started_at] = Time.now
+          self.details[spec_id][:label] = spec.label
+          write_documentation
+        end
       end
 
       def finished_specification(spec)
-        start_time = @spec_started_at[spec.object_id]
-        elapsed_time = ((Time.now - start_time) * 1000).round
+        self.semaphore.synchronize do
+          spec_id = spec.object_id
+          self.details[spec_id][:finished_at] = Time.now
+          self.details[spec_id][:passed] = spec.passed?
+          write_documentation
+        end
+      end
 
-        if spec.passed?
-          puts "\e[32m✓\e[0m #{spec.label} (#{elapsed_time} ms)"
+      protected
+
+      def write_spec_started(details)
+        $stdout.write(details[:label])
+      end
+
+      def write_spec_finished(details)
+        elapsed_time = ((details[:finished_at] - details[:started_at]) * 1000).round
+        if details[:passed]
+          $stdout.puts " \e[32m✓\e[0m (#{elapsed_time} ms)"
         else 
-          puts "\e[31m✗#{spec.label} [FAILED]\e[0m"
+          $stdout.puts " \e[31m✗ [FAILED]\e[0m"
+        end
+      end
+
+      def write_documentation
+        spec_id = self.running.first
+        details = self.details[spec_id]
+
+        unless details[:start_reported]
+          write_spec_started(details)
+          details[:start_reported] = true
+        end
+
+        if details[:finished_at]
+          write_spec_finished(details)
+          self.details.delete(spec_id)
+          self.running.shift
         end
       end
     end

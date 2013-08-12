@@ -2,7 +2,7 @@
 
 require 'preamble'
 
-Peck.concurrency = 100
+Peck.concurrency = 80
 
 describe "The test framework" do
   100.times do
