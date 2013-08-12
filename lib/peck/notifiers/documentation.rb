@@ -5,6 +5,13 @@ require 'peck/notifiers/default'
 class Peck
   class Notifiers
     class Documentation < Peck::Notifiers::Default
+      class << self
+        # The cutoff point beyond which a test is reported as being slow.
+        # Expressed in milliseconds. Default is 500ms.
+        attr_accessor :runtime_report_cutoff
+      end
+      self.runtime_report_cutoff = 500
+
       # Keeps all the labels, start, and end times for the specs
       attr_accessor :details
 
@@ -50,8 +57,9 @@ class Peck
 
       def write_spec_finished(details)
         elapsed_time = ((details[:finished_at] - details[:started_at]) * 1000).round
+        color = self.class.runtime_report_cutoff < elapsed_time ? "\e[35m" : ''
         if details[:passed]
-          $stdout.puts " \e[32m✓\e[0m (#{elapsed_time} ms)"
+          $stdout.puts " \e[32m✓\e[0m #{color}(#{elapsed_time} ms)\e[0m"
         else 
           $stdout.puts " \e[31m✗ [FAILED]\e[0m"
         end
