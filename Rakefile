@@ -15,6 +15,13 @@ task :examples do
   end
 end
 
+namespace :examples do
+  desc "Test the concurrent formatters"
+  task :concurrent do
+    sh "ruby -I spec -I examples -I lib examples/005_concurrent_spec.rb -e ''"
+  end
+end
+
 desc "Add magic encoding to all source files in the project"
 task :magic do
   require File.expand_path('../rake/magic_encoding', __FILE__)
