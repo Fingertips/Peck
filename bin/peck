@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 files = ARGV
+files.concat Dir["{test,spec}/**/*_{test,spec}.rb"] if files.empty?
 
 files.each do |file|
   load file
