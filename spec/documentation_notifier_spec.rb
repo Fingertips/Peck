@@ -3,9 +3,6 @@
 require File.expand_path('../preamble', __FILE__)
 require 'stringio'
 
-class FakeSpec < Struct.new(:label)
-end
-
 describe Peck::Notifiers::Documentation do
   before do
     @notifier = Peck::Notifiers::Documentation.new
@@ -28,7 +25,7 @@ describe Peck::Notifiers::Documentation do
 
   Is a good example of what might happen
 
-\tspec/documentation_notifier_spec.rb:17
+\tspec/documentation_notifier_spec.rb:14
 
 "
   end
@@ -48,7 +45,7 @@ describe Peck::Notifiers::Documentation do
       @notifier.write_event(2, event)
     end.should == "  2) Event should go on
 
-\tspec/documentation_notifier_spec.rb:39
+\tspec/documentation_notifier_spec.rb:36
 
 "
   end
