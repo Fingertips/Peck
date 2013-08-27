@@ -19,4 +19,5 @@ Gem::Specification.new do |spec|
   spec.has_rdoc = true
   spec.extra_rdoc_files = ['COPYING']
   spec.rdoc_options << "--charset=utf-8"
+  spec.executables << 'peck'
 end
