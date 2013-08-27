@@ -3,14 +3,15 @@
 class Peck
   class Context
     def self.it(description, &block)
-      return unless Peck.spec_selector.match(label)
       specification = Specification.new(self, @before, @after, description, &block)
+      return unless Peck.spec_selector.match(specification.label)
       @specs << specification
       specification
     end
 
     def self.pending(description)
-      return unless Peck.spec_selector.match(label)
+      specification = Specification.new(self, @before, @after, description, &block)
+      return unless Peck.spec_selector.match(specification.label)
       delegates.received_pending(description)
     end
   end
