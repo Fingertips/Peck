@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'thread'
 require 'peck/notifiers/default'
 
 class Peck

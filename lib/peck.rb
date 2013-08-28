@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+require 'thread'
+
 class Peck
   VERSION = "0.1.0"
   
