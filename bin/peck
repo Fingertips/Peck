@@ -17,5 +17,9 @@ end
 files.concat Dir["{test,spec}/**/*_{test,spec}.rb"] if files.empty?
 
 files.each do |file|
-  load file
+  if options.first.has_key?('a') || options.first.has_key?('recently-accessed')
+    load file if File.ctime(file) > Time.now - 900
+  else
+    load file
+  end
 end
