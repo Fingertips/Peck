@@ -1,6 +1,19 @@
 #!/usr/bin/env ruby
 
-files = ARGV
+require File.expand_path('../../lib/peck', __FILE__)
+require File.expand_path('../../lib/option_parser', __FILE__)
+
+options = OptionParser.parse(ARGV)
+files = options.last
+
+if match_regexp = options.first['e'] || options.first['match-regexp']
+  Peck.spec_selector = Regexp.new(match_regexp)
+end
+
+if match_text = options.first['t'] || options.first['match-text']
+  Peck.spec_selector = /#{match_text}/
+end
+
 files.concat Dir["{test,spec}/**/*_{test,spec}.rb"] if files.empty?
 
 files.each do |file|
