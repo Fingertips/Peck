@@ -3,7 +3,12 @@
 require File.expand_path('../preamble', __FILE__)
 require 'stringio'
 
-class FakeSpec < Struct.new(:label)
+class FakeSpec
+  attr_reader :label, :passed
+  def initialize(label, passed=true)
+    @label, @passed = label, passed
+  end
+  alias passed? passed
 end
 
 describe Peck::Notifiers::Documentation do
@@ -11,46 +16,13 @@ describe Peck::Notifiers::Documentation do
     @notifier = Peck::Notifiers::Documentation.new
   end
 
-  it "formats test failures into a readable format" do
-    exception = nil
-    begin
-      raise ArgumentError, "Is a good example of what might happen"
-    rescue => e
-      exception = e
-    end
-
+  it "prints the entire label for a spec" do
     spec = FakeSpec.new("Event should go on")
-    event = Peck::Event.new(exception, spec)
 
     capture_stdout do
-      @notifier.write_event(2, event)
-    end.should == "  2) Event should go on
-
-  Is a good example of what might happen
-
-\tspec/documentation_notifier_spec.rb:17
-
-"
-  end
-
-  it "formats test failures without a message" do
-    exception = nil
-    begin
-      fail
-    rescue => e
-      exception = e
-    end
-
-    spec = FakeSpec.new("Event should go on")
-    event = Peck::Event.new(exception, spec)
-
-    capture_stdout do
-      @notifier.write_event(2, event)
-    end.should == "  2) Event should go on
-
-\tspec/documentation_notifier_spec.rb:39
-
-"
+      @notifier.started_specification(spec)
+      @notifier.finished_specification(spec)
+    end.should == "Event should go on \e[32m\342\234\223\e[0m (0 ms)\e[0m\n"
   end
 
   private

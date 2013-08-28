@@ -24,13 +24,7 @@ describe Peck::Notifiers::Default do
 
     capture_stdout do
       @notifier.write_event(2, event)
-    end.should == "  2) Event should go on
-
-  Is a good example of what might happen
-
-\tspec/default_notifier_spec.rb:17
-
-"
+    end.should.start_with "  2) Event should go on\n\n  Is a good example of what might happen\n\n\tspec/default_notifier_spec.rb"
   end
 
   it "formats test failures without a message" do
@@ -46,11 +40,7 @@ describe Peck::Notifiers::Default do
 
     capture_stdout do
       @notifier.write_event(2, event)
-    end.should == "  2) Event should go on
-
-\tspec/default_notifier_spec.rb:39
-
-"
+    end.should.start_with "  2) Event should go on\n\n\tspec/default_notifier_spec.rb"
   end
 
   private
