@@ -6,6 +6,18 @@ require File.expand_path('../../lib/option_parser', __FILE__)
 options = OptionParser.parse(ARGV)
 files = options.last
 
+if options.first.has_key?('h') || options.first.has_key?('help')
+  puts <<-EOF
+Usage: peck [options] [files]
+
+  -e, --match-regexp       run tests that match a given regular expression
+  -t, --match-text         run tests that match a given string
+  -a, --recently-accessed  run tests that have been updated in the last 15 minutes
+  -h, --help               show this message
+  EOF
+  exit
+end
+
 if match_regexp = options.first['e'] || options.first['match-regexp']
   Peck.spec_selector = Regexp.new(match_regexp)
 end
