@@ -86,7 +86,7 @@ system.
 
 ### Peck is extensible
 
-Expect opening up Peck classes you can also extend during runtime with the
+Except opening up Peck classes you can also extend during runtime with the
 `once` callback. This callback is ran when a new context (describe) is
 created.
 
