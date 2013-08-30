@@ -3,7 +3,7 @@
 require File.expand_path('../../lib/peck', __FILE__)
 require File.expand_path('../../lib/option_parser', __FILE__)
 
-options = OptionParser.parse(ARGV)
+options = Peck::OptionParser.parse(ARGV)
 files = options.last
 
 if options.first.has_key?('h') || options.first.has_key?('help')
