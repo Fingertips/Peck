@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require File.expand_path('../../lib/peck', __FILE__)
-require File.expand_path('../../lib/option_parser', __FILE__)
+require File.expand_path('../../lib/peck/option_parser', __FILE__)
 
 options = Peck::OptionParser.parse(ARGV)
 files = options.last
