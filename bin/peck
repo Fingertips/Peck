@@ -19,6 +19,11 @@ Usage: peck [options] [files]
   exit
 end
 
+unless (%w(v version) & options.first.keys).empty?
+  puts "Peck #{Peck::VERSION}"
+  exit 1
+end
+
 if match_regexp = options.first['e'] || options.first['match-regexp']
   Peck.spec_selector = Regexp.new(match_regexp)
 end

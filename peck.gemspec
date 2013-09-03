@@ -1,6 +1,8 @@
+require File.expand_path('../lib/peck', __FILE__)
+
 Gem::Specification.new do |spec|
   spec.name = 'peck'
-  spec.version = '0.4.0'
+  spec.version = Peck::VERSION
 
   spec.author = "Manfred Stienstra"
   spec.email = "manfred@fngtps.com"
