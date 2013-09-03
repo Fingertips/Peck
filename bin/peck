@@ -13,6 +13,7 @@ Usage: peck [options] [files]
   -e, --match-regexp       run tests that match a given regular expression
   -t, --match-text         run tests that match a given string
   -a, --recently-accessed  run tests that have been updated in the last 15 minutes
+  -d, --debug              log debug messages to stdout
   -h, --help               show this message
   EOF
   exit
@@ -24,6 +25,10 @@ end
 
 if match_text = options.first['t'] || options.first['match-text']
   Peck.spec_selector = /#{match_text}/
+end
+
+unless (%w(d debug) & options.first.keys).empty?
+  require File.expand_path('../../lib/peck/debug', __FILE__)
 end
 
 files.concat Dir["{test,spec}/**/*_{test,spec}.rb"] if files.empty?
