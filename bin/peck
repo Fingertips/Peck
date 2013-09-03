@@ -10,6 +10,7 @@ if options.first.has_key?('h') || options.first.has_key?('help')
   puts <<-EOF
 Usage: peck [options] [files]
 
+  -c, --concurrency        set the number of threads used to run the suite
   -e, --match-regexp       run tests that match a given regular expression
   -t, --match-text         run tests that match a given string
   -a, --recently-accessed  run tests that have been updated in the last 15 minutes
@@ -22,6 +23,10 @@ end
 unless (%w(v version) & options.first.keys).empty?
   puts "Peck #{Peck::VERSION}"
   exit 1
+end
+
+if concurrency = options.first['c'] || options.first['concurrency']
+  Peck.concurrency = concurrency.to_i
 end
 
 if match_regexp = options.first['e'] || options.first['match-regexp']

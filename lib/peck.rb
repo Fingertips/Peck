@@ -88,7 +88,7 @@ class Peck
   end
 
   def self.run_concurrent
-    Peck.log("Running specs concurrently")
+    Peck.log("Running specs concurrently (#{Peck.concurrency} threads)")
     current_spec = -1
     specs = all_specs
     threaded do |nr|
