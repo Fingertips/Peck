@@ -25,7 +25,7 @@ class Peck
         end
       end
 
-      def write_exeception(number, event)
+      def write_exception(number, event)
         puts "  #{number}) #{event.spec.label}\n\n"
         backtrace = clean_backtrace(event.exception.backtrace)
 
@@ -41,7 +41,7 @@ class Peck
       def write_event(number, event)
         case event.exception
         when Exception
-          write_exeception(number, event)
+          write_exception(number, event)
         else
           raise ArgumentError, "Don't know how to display event `#{event.expectation.class.name}'"
         end
