@@ -1,9 +1,10 @@
 # encoding: utf-8
 
 require File.expand_path('../preamble', __FILE__)
+require 'peck/notifiers/default'
 require 'stringio'
-describe Peck::Notifiers::Default do
 
+describe Peck::Notifiers::Default do
   before do
     @notifier = Peck::Notifiers::Default.new
   end
