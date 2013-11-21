@@ -73,14 +73,17 @@ class Peck
       end
 
       satisfy(description) do |x|
-        difference = change || 1
         binding = x.send(:binding)
 
         before = eval(expression, binding)
         result = @this.call
         after = eval(expression, binding)
 
-        after == before + difference
+        if difference = change
+          after == before + difference
+        else
+          before != after
+        end
       end
     end
 
