@@ -25,9 +25,18 @@ class Peck
         end
       end
 
+      def backtrace(event)
+        if Peck.clean_backtrace == false
+          backtrace = event.exception.backtrace
+        else
+          backtrace = clean_backtrace(event.exception.backtrace)
+        end
+      end
+
       def write_exception(number, event)
         puts "  #{number}) #{event.spec.label}\n\n"
-        backtrace = clean_backtrace(event.exception.backtrace)
+
+        backtrace = backtrace(event)
 
         parts = []
         unless event.exception.message.nil? || event.exception.message == ''

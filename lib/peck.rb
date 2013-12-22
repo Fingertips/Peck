@@ -27,6 +27,9 @@ class Peck
 
     # Sets the level of concurrency.
     attr_accessor :concurrency
+
+    # Sets whether the backtrace should be cleaned in case of a failure
+    attr_accessor :clean_backtrace
   end
 
   # A no-op unless you require 'peck/debug'
