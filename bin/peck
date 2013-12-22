@@ -14,6 +14,7 @@ Usage: peck [options] [files]
   -e, --match-regexp       run tests that match a given regular expression
   -t, --match-text         run tests that match a given string
   -a, --recently-accessed  run tests that have been updated in the last 15 minutes
+  -S, --no-strip-backtrace doesn't strip anything from the backtrace
   -d, --debug              log debug messages to stdout
   -h, --help               show this message
   EOF
@@ -35,6 +36,10 @@ end
 
 if match_text = options.first['t'] || options.first['match-text']
   Peck.spec_selector = /#{match_text}/
+end
+
+if options.first['S'] || options.first['no-strip-backtrace']
+  Peck.clean_backtrace = false
 end
 
 unless (%w(d debug) & options.first.keys).empty?
