@@ -3,7 +3,7 @@
 require 'thread'
 
 class Peck
-  VERSION = "0.5.2"
+  VERSION = "0.5.3"
   
   class << self
     # Returns all the defined contexts.
