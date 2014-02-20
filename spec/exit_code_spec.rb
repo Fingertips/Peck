@@ -23,4 +23,27 @@ end
     system("ruby -e '#{failed_spec}'")
     $?.exitstatus.should == 2
   end
+
+  it "returns an exit code with the number of failures when failing fast" do
+    failed_spec = %(
+
+$:.unshift("#{File.expand_path('../../lib', __FILE__)}")
+
+require "peck/flavors/quiet"
+Peck.fail_fast = true
+
+describe "Something" do
+  it "fails" do
+    1.should == 2
+  end
+
+  it "also fails" do
+    2.should == 4
+  end
+end
+
+    )
+    system("ruby -e '#{failed_spec}'")
+    $?.exitstatus.should == 1
+  end
 end

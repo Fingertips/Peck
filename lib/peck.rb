@@ -80,12 +80,17 @@ class Peck
     end
   end
 
+  def self.stop_early?
+    Peck.fail_fast && Peck.counter.failed > 0
+  end
+
   def self.run_serial
     Peck.log("Running specs in serial")
     Thread.current['peck-semaphore'] = Mutex.new
     contexts.each do |context|
       context.specs.each do |specification|
         specification.run(delegates)
+        return if stop_early?
       end
     end
   rescue Exception => e
@@ -103,6 +108,7 @@ class Peck
         spec_index = Thread.exclusive { current_spec += 1 }
         if specification = specs[spec_index]
           specification.run(delegates)
+          return if stop_early?
         else
           break
         end
