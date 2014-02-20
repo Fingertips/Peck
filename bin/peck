@@ -15,6 +15,7 @@ Usage: peck [options] [files]
   -t, --match-text         run tests that match a given string
   -a, --recently-accessed  run tests that have been updated in the last 15 minutes
   -S, --no-strip-backtrace doesn't strip anything from the backtrace
+  -f, --fail-fast          fail with the first failing assertion
   -d, --debug              log debug messages to stdout
   -h, --help               show this message
   EOF
@@ -40,6 +41,10 @@ end
 
 if options.first['S'] || options.first['no-strip-backtrace']
   Peck.clean_backtrace = false
+end
+
+if options.first['f'] || options.first['fail-fast']
+  Peck.fail_fast = true
 end
 
 unless (%w(d debug) & options.first.keys).empty?

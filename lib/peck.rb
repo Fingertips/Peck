@@ -30,6 +30,9 @@ class Peck
 
     # Sets whether the backtrace should be cleaned in case of a failure
     attr_accessor :clean_backtrace
+
+    # Sets whether Peck should exit at the first failing assertion
+    attr_accessor :fail_fast
   end
 
   # A no-op unless you require 'peck/debug'
