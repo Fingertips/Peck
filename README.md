@@ -170,6 +170,30 @@ months. Currently we support a small number of assertions:
   * should.change([expression]) { }
   * should.satisfy { |object| }
 
+### Change
+
+You can check for changes in an expression.
+
+    lambda do
+      Person.create
+    end.should.change('Person.count')
+
+Or check for specific changes.
+
+    lambda do
+      Person.create
+      Person.create
+    end.should.change('Person.count', +2)
+
+Or check for multiple changes.
+
+    lambda do
+      Library.bootstrap
+    end.should.change(
+      'Shelf.count', +12,
+      'Book.count', +243
+    )
+
 If you want to learn more you're probably best of reading the code
 documentation.
 
