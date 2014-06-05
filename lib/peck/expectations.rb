@@ -15,6 +15,9 @@ class Peck
       end
     end
 
+    # A Specification is a proxy object which eventually generates
+    # a specification on the context. This is used by the should
+    # method in the context class.
     class Specification < Proxy
       def not
         @negated = !@negated
@@ -63,28 +66,39 @@ class Peck
       result
     end
 
-    def change(expression, change=nil)
-      if @negated
-        description = "#{expression} changed"
-        description << " by #{actual}" if change
-      else
-        description = "#{expression} didn't change"
-        description << " by #{change}" if change
+    def change(*expected)
+      block_binding = @this.send(:binding)
+
+      before = expected.in_groups_of(2).map do |expression, _|
+        eval(expression, block_binding)
       end
 
-      satisfy(description) do |x|
-        binding = x.send(:binding)
+      block_result = @this.call
 
-        before = eval(expression, binding)
-        result = @this.call
-        after = eval(expression, binding)
+      expected.in_groups_of(2).each_with_index do |(expression, change), index|
+        after = eval(expression, block_binding)
+        actual = after - before[index]
 
-        if difference = change
-          after == before + difference
+        if @negated
+          description = "#{expression} changed"
+          description << " by expected #{change}" if change
+          description << ", actual change: #{actual}"
         else
-          before != after
+          description = "#{expression} didn't change"
+          description << " by expected #{change}" if change
+          description << ", actual change: #{actual}"
+        end
+
+        satisfy(description) do |x|
+          if change
+            after == (before[index] + change)
+          else
+            before[index] != after
+          end
         end
       end
+
+      block_result
     end
 
     def raise(exception_class=nil)
