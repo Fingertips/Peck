@@ -3,8 +3,8 @@
 require 'thread'
 
 class Peck
-  VERSION = "0.5.3"
-  
+  VERSION = "0.5.4"
+
   class << self
     # Returns all the defined contexts.
     attr_reader :contexts
