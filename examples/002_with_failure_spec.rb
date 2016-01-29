@@ -22,7 +22,7 @@ assert(Peck.counter.passed == 0,
   "Expected no specifications to have passed")
 
 assert(Peck.counter.failed == 1,
-  "Expected one specifications to have failed")
+  "Expected one specification to have failed")
 
 assert(Peck.counter.pending.empty? == true,
   "Expected no specifications to be pending")
