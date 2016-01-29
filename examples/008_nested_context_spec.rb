@@ -50,10 +50,10 @@ Peck.run
 require 'assert'
 
 assert(Peck.counter.ran == 5,
-  "Expected five specification to have been run")
+  "Expected five specifications to have been run")
 
 assert(Peck.counter.passed == 5,
-  "Expected five specification to have passed")
+  "Expected five specifications to have passed")
 
 assert(Peck.contexts[0].label == "The",
   "Expected the title to be ‘The’")

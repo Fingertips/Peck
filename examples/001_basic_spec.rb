@@ -20,7 +20,7 @@ assert(
   "Expected 1 context to be defined")
 
 assert(Peck.contexts[0].specs.length == 1,
-  "Expected 1 specification to be defined")
+  "Expected one specification to be defined")
 
 expected_label = "The test framework"
 actual_label   = Peck.contexts[0].label

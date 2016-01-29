@@ -28,7 +28,7 @@ Peck.run
 require 'assert'
 
 assert(Peck.counter.ran == 2,
-  "Expected five specification to have been run")
+  "Expected two specifications to have been run")
 
 assert(Peck.counter.passed == 2,
   "Expected five specification to have passed")

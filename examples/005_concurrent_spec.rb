@@ -22,4 +22,4 @@ Peck.run
 require 'assert'
 
 assert(Peck.counter.ran == 100,
-  "Expected 100 specification to have been run")
+  "Expected 100 specifications to have been run")
