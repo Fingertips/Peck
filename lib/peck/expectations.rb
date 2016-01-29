@@ -69,13 +69,13 @@ class Peck
     def change(*expected)
       block_binding = @this.send(:binding)
 
-      before = expected.in_groups_of(2).map do |expression, _|
+      before = expected.each_slice(2).map do |expression, _|
         eval(expression, block_binding)
       end
 
       block_result = @this.call
 
-      expected.in_groups_of(2).each_with_index do |(expression, change), index|
+      expected.each_slice(2).with_index do |(expression, change), index|
         after = eval(expression, block_binding)
         actual = after - before[index]
 
