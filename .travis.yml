@@ -2,6 +2,9 @@ language: ruby
 rvm:
   - 2.2.0
   - 2.3.0
+env:
+  global:
+    - RUBYOPT="-W"
 script:
   - rake
   - rake examples:concurrent
