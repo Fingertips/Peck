@@ -197,6 +197,12 @@ Or check for multiple changes.
 If you want to learn more you're probably best of reading the code
 documentation.
 
+## Older Ruby versions
+
+We currently support Ruby version 2.2 and up. If you're running an older version of Ruby you can version lock your gems to an appropriate older version Peck to make sure it runs.
+
+* 0.6.0 dropped support for Ruby < 2.2 (e.g. 1.8.7 and 1.9)
+
 ## Copying
 
 Peck inherits a lot of ideas, concepts and even some implementation from both
