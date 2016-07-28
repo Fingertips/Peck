@@ -11,7 +11,7 @@ end
 describe "The test framework" do
   100.times do
     it "discovers the truth" do
-      true.should == true
+      true.should.eql(true)
       sleep 0.2
     end
   end

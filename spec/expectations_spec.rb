@@ -9,9 +9,9 @@ describe Peck::Should::Proxy do
     context = Class.new.new
 
     proxy = Peck::Should::Proxy.new(context, &block)
-    proxy.context.should == context
-    proxy.block.should == block
-    proxy.negated.should == false
+    proxy.context.should.eql(context)
+    proxy.block.should.eql(block)
+    proxy.negated.should.eql(false)
   end
 end
 
@@ -20,8 +20,8 @@ describe Peck::Should::Specification do
     block = proc {}
     context = Class.new.new
     spec = Peck::Should::Specification.new(context, &block)
-    spec.negated.should == false
-    spec.not.negated.should == true
+    spec.negated.should.eql(false)
+    spec.not.negated.should.eql(true)
   end
 end
 
@@ -61,8 +61,8 @@ describe "A common", Peck::Should do
   end
 
   it "negates" do
-    @should.instance_variable_get('@negated').should == false
-    @should.not.object_id.should == @should.object_id
-    @should.instance_variable_get('@negated').should == true
+    @should.instance_variable_get('@negated').should.eql(false)
+    @should.not.object_id.should.eql(@should.object_id)
+    @should.instance_variable_get('@negated').should.eql(true)
   end
 end
