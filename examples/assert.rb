@@ -5,8 +5,11 @@ module Kernel
 
   def assert(success, message=nil)
     unless success
-      @_failures ||= 0
-      @_failures += 1
+      if defined?(@_failures)
+        @_failures += 1
+      else
+        @_failures = 1
+      end
       where = caller[0].split(":")[0,2].join(':')
       message ||= "Assertion failed"
       puts "\n  #{@_failures}) #{where}\n\t#{message}"
@@ -14,7 +17,11 @@ module Kernel
   end
 
   def failures
-    @_failures || 0
+    if defined?(@_failures)
+      @_failures
+    else
+      0
+    end
   end
 end
 
