@@ -41,7 +41,7 @@ class Peck
           @specs       = []
         end
 
-        if @setup
+        if defined?(@setup)
           @setup.each { |b| b.call(context) }
         end
 

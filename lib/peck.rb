@@ -98,6 +98,10 @@ class Peck
     raise e
   end
 
+  def self.counter_mutex
+    @_counter_mutex ||= Mutex.new
+  end
+
   def self.run_concurrent
     Peck.log("Running specs concurrently (#{Peck.concurrency} threads)")
     current_spec = -1
@@ -105,7 +109,7 @@ class Peck
     threaded do |nr|
       Thread.current['peck-semaphore'] = Mutex.new
       loop do
-        spec_index = Thread.exclusive { current_spec += 1 }
+        spec_index = counter_mutex.synchronize { current_spec += 1 }
         if specification = specs[spec_index]
           specification.run(delegates)
           return if stop_early?

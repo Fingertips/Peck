@@ -1,4 +1,4 @@
-task :default => [:specs, :examples]
+task default: [:specs, :examples]
 
 desc "Run all specs"
 task :specs do
