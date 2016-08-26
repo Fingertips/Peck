@@ -132,6 +132,20 @@ class Peck
       end
     end
 
+    # Matches if the object equals another object using == internally. We use
+    # this method so you can write specs without triggering Ruby syntax
+    # warnings, but still test == equality.
+    def eq(other)
+      if @negated
+        description = "expected `#{self}' to not == `#{other}'"
+      else
+        description = "expected `#{self}' to == `#{other}'"
+      end
+      satisfy(description) do
+        @this == other
+      end
+    end
+
     PREDICATE_METHOD_RE = /\w[^?]\z/
     def method_missing(name, *args, &block)
       name = "#{name}?" if name.to_s =~ PREDICATE_METHOD_RE
