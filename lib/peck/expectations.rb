@@ -137,9 +137,9 @@ class Peck
     # warnings, but still test == equality.
     def eq(other)
       if @negated
-        description = "expected `#{self}' to not == `#{other}'"
+        description = "expected `#{@this}' to not == `#{other}'"
       else
-        description = "expected `#{self}' to == `#{other}'"
+        description = "expected `#{@this}' to == `#{other}'"
       end
       satisfy(description) do
         @this == other
