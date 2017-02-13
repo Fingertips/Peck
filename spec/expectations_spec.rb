@@ -65,4 +65,16 @@ describe "A common", Peck::Should do
     @should.not.object_id.should.eql(@should.object_id)
     @should.instance_variable_get('@negated').should.eql(true)
   end
+
+  it "equality is successful when objects are equal" do
+    lambda do
+      @should.eq(@subject)
+    end.should.not.raise
+  end
+
+  it "equality fails when objects are not equal" do
+    lambda do
+      @should.eq(12)
+    end.should.raise(Peck::Error)
+  end
 end
